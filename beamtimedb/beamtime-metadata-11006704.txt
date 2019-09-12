@@ -1,0 +1,55 @@
+The following metadata are a dump from DOOR, the 'DESY Online Office for Research with Photons'.
+The dump was executed at the time the beamtime was actually started.
+
+{
+    "applicant": {
+        "email": "silvia.galli@mah.se",
+        "institute": "Malmoe University",
+        "lastname": "Galli",
+        "userId": "9835",
+        "username": "silvia.galli"
+    },
+    "beamline": "p05",
+    "beamline_alias": "P05",
+    "beamtimeId": "11006704",
+    "contact": "Hammel",
+    "event-end": "2019-07-15 09:00:00",
+    "event-start": "2019-07-11 09:00:00",
+    "facility": "PETRA III",
+    "leader": {
+        "email": "regine.willumeit@hzg.de",
+        "institute": "Helmholtz-Zentrum Geesthacht HZG",
+        "lastname": "Willumeit",
+        "userId": "319",
+        "username": "Willumeit"
+    },
+    "pi": {
+        "email": "silvia.galli@mah.se",
+        "institute": "Malmoe University",
+        "lastname": "Galli",
+        "userId": "9835",
+        "username": "silvia.galli"
+    },
+    "proposalId": "20170009",
+    "proposalType": "II",
+    "title": "Failure in biodegradable magnesium-based implants in bone studied by in situ synchrotron radiation based X-ray micro computed tomography",
+    "unixId": "None",
+    "users": {
+        "door-db": [
+            "gallisil",
+            "fwieland",
+            "moosmanj",
+            "kruegd1",
+            "zellerb",
+            "fwilde",
+            "felix",
+            "greving",
+            "dunger",
+            "hammeljo"
+        ],
+        "special": [],
+        "unknown": []
+    }
+}
+
+file created at: 2019-07-11 09:25:24

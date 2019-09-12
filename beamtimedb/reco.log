@@ -1,0 +1,81 @@
+scan_name : syn001_35R_Ti_8w_000
+beamtime_id : 11006704
+scan_path : /asap3/petra3/gpfs/p05/2019/data/11006704/raw/syn001_35R_Ti_8w_000/
+reco_path : /asap3/petra3/gpfs/p05/2019/data/11006704/processed/syn001_35R_Ti_8w_000/reco/
+MATLAB notation, index of first element: 1, range: first:stride:last
+MATLAB version : 9.4.0.813654 (R2018a)
+Git commit ID : d3c5d7c0b84c7266fba90c6636af97b5a593d897
+platform : GLNXA64
+effective_pixel_size : 1.28034 micron
+effective_pixel_size_binned : 5.12135 micron
+energy : 40000 eV
+sample_detector_distance : 0.070001 m
+camera : KIT
+exposure_time : 50.000000
+num_dark_found : 20
+num_ref_found : 600
+num_ref_used : 75
+ref_range : 1:8:593
+num_proj_found : 1200
+num_proj_used : 1200
+proj_range : 1:1:1200
+im_shape_raw : 5120 3840
+raw_roi :  image_shape_roi : 5120 3840
+image_shape_roi_binned : 1280 960
+raw_binning_factor : 4
+bin_before_filtering : 1
+ring_current_normalization : 1
+image_correlation.method : ssim-ml
+image_correlation.num_flats : 1
+image_correlation.area_width : 0:1.000000e-02:1.000000e-02
+image_correlation.area_height : 3.000000e-01:4.000000e-01:7.000000e-01
+min_max_of_all_darks : 53.0625   93.5
+min_max_of_median_dark : 56.3438  90.25
+min_max_of_all_flats : 499.062 3799.88
+min_max_of_all_corrected_flats : 360.113 3109.78
+min_max_of_all_raws :   104.5 2268.5
+min_max_of_all_corrected_raws :  28.2984 1825.66
+min_max_of_all_flat_corr_projs : 0.0413359 0.887674 
+strong_abs_thresh : 1.000000 m
+phase_retrieval.apply : 0
+tomo.vol_shape : 1282 1282 960
+tomo.vol_size : -641.000000 641.000000 -641.000000 641.000000 -480.000000 480.000000
+excentric_rot_axis : 0
+crop_at_rot_axis : 0
+stitch_projections : 0
+stitch_method : sine
+tomo.reco_mode : 3D
+tomo.rot_angle.full_range :  * pi rad
+tomo.rot_angle.offset : 1.000000 * pi rad
+rot_axis_offset_reco : 0.950000
+rotation_axis_offset_reco : 0.950000
+tomo.rot_axis.position : 640.950000
+rotation_axis_tilt_calculated : 
+tomo.rot_axis.tilt : 0.000000
+raw_image_binned_center : 640.000000
+interactive_mode.rot_axis_pos : 1
+interactive_mode.phase_retrieval : 1
+ring_filter.apply : 0
+tomo.algorithm : fbp
+tomo.fbp_filter.type : Ram-Lak
+tomo.fbp_filter.freq_cutoff : 1.000000
+tomo.fbp_filter.padding : 1
+tomo.fbp_filter.padding_method : symmetric
+tomo.butterworth_filter.apply : 0
+tomo.butterworth_filter.order : 1
+tomo.butterworth_filter.frequ_cutoff : 0.900000
+tomo.astra_pixel_size : 1.000000
+tomo.take_neg_log : 1
+gpu_name : Tesla K40m
+[volume_min volume_max] : [-0.00563429 0.0241619]
+write.float : 1
+write.float_binned : 0
+write.uint16 : 0
+write.uint16_binned : 0
+write.uint8 : 0
+write.uint8_binned : 0
+compression.limits : 0.000000 1.000000
+reco_bin : 2
+full_reconstruction_time : 460.4 s
+date_of_reconstruction : 13-Jul-2019 12:16:56
+tomo.rot_axis.offset at 4 x binning : 0.950000
