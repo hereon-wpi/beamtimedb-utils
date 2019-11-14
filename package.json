@@ -1,0 +1,26 @@
+{
+  "name": "beamtimedb-utils",
+  "version": "1.0.0",
+  "description": "BeamtimeDB import/export utils",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hzg-wpi/beamtimedb-utils.git"
+  },
+  "keywords": [
+    "beamtimedb"
+  ],
+  "author": "Ingvord",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/hzg-wpi/beamtimedb-utils/issues"
+  },
+  "homepage": "https://github.com/hzg-wpi/beamtimedb-utils#readme",
+  "dependencies": {
+    "line-reader": "^0.4.0",
+    "mongodb": "^3.3.4"
+  }
+}
