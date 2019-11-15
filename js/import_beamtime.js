@@ -15,6 +15,7 @@ const pipe = require('rxjs').pipe;
 const flatMap = require('rxjs/operators').flatMap;
 const tap = require('rxjs/operators').tap;
 
+//TODO flatten
 of(doorBeamtimeJson).pipe(
     flatMap(doorBeamtimeJson => {
         return from(require("./import_door_beamtime_json.js").importDoorBeamtime(doorBeamtimeJson));
