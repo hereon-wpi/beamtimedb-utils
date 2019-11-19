@@ -11,9 +11,9 @@ const CreationOrder = require('hdf5/lib/globals').CreationOrder;
 const H5OType = require('hdf5/lib/globals').H5OType;
 
 const groups = [
-    // "beamline",
-    // "beamtime",
-    // "sample",
+    "beamline",
+    "beamtime",
+    "sample",
     "scan",
     "scan/setup"
 ];
@@ -24,43 +24,65 @@ const of = require('rxjs').of;
 const pipe = require('rxjs').pipe;
 const map = require('rxjs/operators').map;
 const filter = require('rxjs/operators').filter;
-const concatMap = require('rxjs/operators').concatMap;
-const tap = require('rxjs/operators').tap;
-const toArray = require('rxjs/operators').toArray;
+const mergeMap = require('rxjs/operators').mergeMap;
+const reduce = require('rxjs/operators').reduce;
+const finalize = require('rxjs/operators').finalize;
+
+// === path ===
+const path = require("path");
 
 const SegfaultHandler = require('segfault-handler');
 SegfaultHandler.registerHandler("crash.log", function(signal, address, stack) {
     debugger
 });
 
-module.exports.importHdf5 = importHdf5 = function(input, output) {
-    debugger
+module.exports.importHdf5 = importHdf5 = function(input) {
     const file = new hdf5.File(input, Access.ACC_RDONLY);
-
-    from(groups).pipe(
+    return from(groups).pipe(
         map(groupName => {
             const group = file.openGroup(`entry/${groupName}`, CreationOrder.H5P_CRT_ORDER_TRACKED| CreationOrder.H5P_CRT_ORDER_TRACKED);
             return {name: groupName, hdf5group: group};
         }),
         map(group => Object.assign(group, {dataSets: group.hdf5group.getMemberNames()})),
-        concatMap(group =>
+        mergeMap(group =>
             from(group.dataSets).pipe(
                 filter(dataSet => group.hdf5group.getChildType(dataSet) === H5OType.H5O_TYPE_DATASET),
                 filter(dataSet => h5lt.readDataset(group.hdf5group.id, dataSet) !== undefined),
                 map(dataSet => {
-                    const result = Object.create(null);
-                    result.name = dataSet;
+                    const result = {
+                        hdf5group: group.hdf5group,
+                        group: group.name,
+                        name: dataSet
+                    };
+
                     result.value = h5lt.readDataset(group.hdf5group.id, dataSet);
                     if (result.value.length === 1) [result.value] = result.value;
                     return result;
                 }),
-                toArray()
+                finalize(() => {
+                    console.log(`Closing H5Group ${group.name}`);
+                    group.hdf5group.close();
+                })
             )
-        )
-    ).subscribe(dataSets => {
-        debugger
-        console.log(dataSets)
-    });
+        ),
+        reduce((acc, dataset) => {
+            const source = {
+                [dataset.name]: dataset.value
+            };
+            if(acc[dataset.group])
+                Object.assign(acc[dataset.group], source);
+            else
+                Object.assign(acc, {
+                    [dataset.group]: source
+                });
+            return acc;
+        }, {}),
+        map(scan => Object.assign(scan, {name: path.basename(input).substring(0, path.basename(input).lastIndexOf("_nexus.h5"))   })),
+        finalize(() => {
+            console.log(`Closing ${input}`);
+            file.close()
+        })
+    );
 };
 
 
@@ -79,12 +101,17 @@ module.exports.importHdf5 = importHdf5 = function(input, output) {
 
     const collection = db.collection('beamtimes');
 
-    const beamtime = await collection.insertOne({
-        scans: [
-            {}
-        ]
+    // const beamtime = await collection.insertOne({
+    //     scans: [
+    //         {}
+    //     ]
+    // });
+
+    importHdf5(input).subscribe(dataSets => {
+        const output = Object.assign({}, dataSets);
+        console.log(output)
     });
 
-    importHdf5(input, beamtime);
+    client.close();
 
 })('beamtimedb/syn001_35R_Ti_8w_000_nexus.h5');
