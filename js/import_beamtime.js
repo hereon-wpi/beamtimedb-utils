@@ -18,10 +18,11 @@ const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
 
 const mongodb = {
-    host:process.env["mongodb.host"],
-    port:process.env["mongodb.port"]
+    host:process.env["MONGODB_HOST"],
+    port:process.env["MONGODB_PORT"]
 };
 
+console.debug(mongodb);
 
 (async function() {
     const MongoClient = require('mongodb').MongoClient;

@@ -18,3 +18,10 @@ RUN npm install --hdf5_home_linux=${HDF5_HOME_LINUX}
 
 COPY js /usr/src/app/js
 
+ARG APP_UID=20229
+
+RUN useradd -u "$APP_UID" -ms /bin/bash khokhria
+
+USER khokhria
+
+WORKDIR /home/khokhria
