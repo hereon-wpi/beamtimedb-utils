@@ -17,10 +17,16 @@ const flatMap = require('rxjs/operators').flatMap;
 const mergeMap = require('rxjs/operators').mergeMap;
 const map = require('rxjs/operators').map;
 
+const mongodb = {
+    host:process.env["mongodb.host"],
+    port:process.env["mongodb.port"]
+};
+
+
 (async function() {
     const MongoClient = require('mongodb').MongoClient;
 
-    const url = 'mongodb://localhost:27017';
+    const url = `mongodb://${mongodb.host}:${mongodb.port}`;
     const client = new MongoClient(url, {
         useUnifiedTopology: true
     });
@@ -82,4 +88,4 @@ const map = require('rxjs/operators').map;
             await client.close();
         }
     });
-})();
+})()
