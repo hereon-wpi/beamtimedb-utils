@@ -40,7 +40,12 @@ console.debug(mongodb);
 
     of(doorBeamtimeJson).pipe(
         flatMap(doorBeamtimeJson => {
-            return from(require("./import_door_beamtime_json.js").importDoorBeamtime(doorBeamtimeJson));
+            console.debug("Process json");
+            try {
+                return from(require("./import_door_beamtime_json.js").importDoorBeamtime(doorBeamtimeJson));
+            } finally {
+                console.debug("..done!");
+            }
         }),
         mergeMap(beamtime =>
             from(recoLogs).pipe(
@@ -75,6 +80,7 @@ console.debug(mongodb);
             )
         )
     ).subscribe(async beamtime => {
+        console.debug("Dumping beamtime into MongoDB");
         try {
             await collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, { $set: beamtime}, {
                 upsert: true,
