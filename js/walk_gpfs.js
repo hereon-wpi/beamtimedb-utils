@@ -28,6 +28,7 @@ const path = require('path');
     //import DOOR Json
     walker.on('file', function (root, stats, next) {
         if (/beamtime-metadata-(\d{8}).txt/gi.test(stats.name)) {
+            console.log(`Processing ${stats.name}`);
             extractJson(`${root}/${stats.name}`, `/tmp/${stats.name}`, async function () {
                 const beamtime = await importDoorBeamtime(`/tmp/${stats.name}`);
                 beamtime.scans = {};
@@ -35,7 +36,7 @@ const path = require('path');
                     upsert: true,
                     returnNewDocument: true
                 }).then(() => {
-                    console.log('Successfully imported beamtime metadata');
+                    console.log(`Successfully imported beamtime metadata ${stats.name}`);
                     next();
                 });
 
@@ -50,6 +51,7 @@ const path = require('path');
     //import scan h5
     walker.on('file', function (root, stats, next) {
         if (/(\.*)_nexus.h5/gi.test(stats.name)) {
+            console.log(`Processing ${stats.name}`);
             const scanName = stats.name.replace('_nexus.h5','');
 
             const scan = importHdf5(`${root}/${stats.name}`);
@@ -69,7 +71,7 @@ const path = require('path');
                             upsert: true,
                             returnNewDocument: true
                         }).then(() => {
-                            console.log('Successfully imported beamtime metadata');
+                            console.log(`Successfully imported beamtime  scan h5 ${stats.name}`);
                             next();
                         });
                     });
@@ -84,7 +86,7 @@ const path = require('path');
     //import reco
     walker.on('file', function(root, stats, next){
         if (path.extname(stats.name) === '.log' && root.includes('processed')) {
-            console.log(stats.name);
+            console.log(`Processing reco log ${stats.name}`);
 
 
             const recoName = path.basename(stats.name, path.extname(stats.name));
@@ -98,7 +100,7 @@ const path = require('path');
                         upsert: true,
                         returnNewDocument: true
                     }).then(() => {
-                        console.log('Successfully imported beamtime metadata');
+                        console.log(`Successfully imported beamtime scan reco ${stats.name}`);
                         next();
                     });
                 });
