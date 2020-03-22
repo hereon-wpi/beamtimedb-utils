@@ -31,7 +31,6 @@ const path = require('path');
             console.log(`Processing ${stats.name}`);
             extractJson(`${root}/${stats.name}`, `/tmp/${stats.name}`, async function () {
                 const beamtime = await importDoorBeamtime(`/tmp/${stats.name}`);
-                beamtime.scans = {};
                 mongodb.collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, {$set: beamtime}, {
                     upsert: true,
                     returnNewDocument: true
@@ -63,6 +62,8 @@ const path = require('path');
             scan.subscribe(scan => {
                 mongodb.collection.findOne({beamtimeId: beamtimeId})
                     .then(beamtime => {
+                        if(beamtime.scans === undefined) beamtime.scans = {};
+
                         scan.recos = {};
                         beamtime.scans[scanName] = scan;
                         return beamtime;
@@ -93,6 +94,9 @@ const path = require('path');
             parseReco(`${root}/${stats.name}`).then(reco => {
                 mongodb.collection.findOne({beamtimeId: reco.beamtime_id})
                     .then(beamtime => {
+                        if(beamtime.scans === undefined) beamtime.scans = {};
+                        if(beamtime.scans[reco.scan_name] === undefined) beamtime.scans[reco.scan_name] = { recos: {}};
+
                         beamtime.scans[reco.scan_name].recos[recoName] = reco;
                         return beamtime;
                     }).then(beamtime=> {
