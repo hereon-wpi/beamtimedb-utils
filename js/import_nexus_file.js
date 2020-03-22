@@ -84,3 +84,16 @@ module.exports.importHdf5 = importHdf5 = function(input) {
         })
     );
 };
+
+const argv = require('yargs')
+    .option('nexusFile', {
+        desc: 'nexus file'
+    })
+    .argv;
+
+if(argv.nexusFile !== undefined){
+    importHdf5(argv.nexusFile)
+        .subscribe(scan => {
+            debugger
+        })
+}
