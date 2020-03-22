@@ -84,34 +84,3 @@ module.exports.importHdf5 = importHdf5 = function(input) {
         })
     );
 };
-
-
-
-
-(async function(input){
-    const MongoClient = require('mongodb').MongoClient;
-
-    const client = new MongoClient('mongodb://localhost:27017',{
-        useUnifiedTopology: true
-    });
-
-    await client.connect();
-
-    const db = client.db('beamtimedb');
-
-    const collection = db.collection('beamtimes');
-
-    // const beamtime = await collection.insertOne({
-    //     scans: [
-    //         {}
-    //     ]
-    // });
-
-    importHdf5(input).subscribe(dataSets => {
-        const output = Object.assign({}, dataSets);
-        console.log(output)
-    });
-
-    client.close();
-
-})('beamtimedb/syn001_35R_Ti_8w_000_nexus.h5');

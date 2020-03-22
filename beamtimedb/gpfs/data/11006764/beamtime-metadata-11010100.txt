@@ -1,0 +1,51 @@
+The following metadata are a dump from DOOR, the 'DESY Online Office for Research with Photons'.
+The dump was executed at the time the beamtime was actually started.
+
+{
+    "applicant": {
+        "email": "a.blanke@uni-koeln.de",
+        "institute": "Universitaet zu Koeln",
+        "lastname": "Blanke",
+        "userId": "3097",
+        "username": "blanke"
+    },
+    "beamline": "p05",
+    "beamline_alias": "P05",
+    "beamtimeId": "11006764",
+    "contact": "Wilde",
+    "event-end": "2019-11-15 09:00:00",
+    "event-start": "2019-11-12 09:00:00",
+    "facility": "PETRA III",
+    "leader": {
+        "email": "a.blanke@uni-koeln.de",
+        "institute": "Universitaet zu Koeln",
+        "lastname": "Blanke",
+        "userId": "3097",
+        "username": "blanke"
+    },
+    "pi": {
+        "email": "a.blanke@uni-koeln.de",
+        "institute": "Universitaet zu Koeln",
+        "lastname": "Blanke",
+        "userId": "3097",
+        "username": "blanke"
+    },
+    "proposalId": "20190019",
+    "proposalType": "I",
+    "title": "Understanding the morphospace transition and biomechanics of early biting-chewing and piercing-sucking insects",
+    "unixId": "None",
+    "users": {
+        "door-db": [
+            "fwilde",
+            "felix",
+            "greving",
+            "moosmanj",
+            "dunger",
+            "hammeljo"
+        ],
+        "special": [],
+        "unknown": []
+    }
+}
+
+file created at: 2019-11-12 09:21:09%
