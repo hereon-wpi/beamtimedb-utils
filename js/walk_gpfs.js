@@ -95,8 +95,8 @@ const path = require('path');
 
 
             const recoName = path.basename(stats.name, path.extname(stats.name));
-            const beamtimeId = reco.beamtime_id;
             parseReco(`${root}/${stats.name}`).then(reco => {
+                const beamtimeId = reco.beamtime_id;
                 mongodb.collection.findOne({beamtimeId})
                     .then(beamtime => {
                         if(beamtime === null) beamtime = {
