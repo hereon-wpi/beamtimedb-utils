@@ -51,8 +51,6 @@ const path = require('path');
     walker.on('file', function (root, stats, next) {
         if (/(\.*)_nexus.h5/gi.test(stats.name)) {
             console.log(`Processing ${root}/${stats.name}`);
-            const scanName = stats.name.replace('_nexus.h5','');
-
             const scan = importHdf5(`${root}/${stats.name}`);
 
             const splitPath = path.dirname(root).split(path.sep);
@@ -62,20 +60,26 @@ const path = require('path');
             scan.subscribe(scan => {
                 mongodb.collection.findOne({beamtimeId: beamtimeId})
                     .then(beamtime => {
+                        if(beamtime === null) beamtime = {
+                            beamtimeId
+                        };
                         if(beamtime.scans === undefined) beamtime.scans = {};
 
                         scan.recos = {};
                         beamtime.scans[scan.name] = scan;
                         return beamtime;
                     }).then(beamtime=> {
-                        mongodb.collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, {$set: beamtime}, {
+                        return mongodb.collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, {$set: beamtime}, {
                             upsert: true,
                             returnNewDocument: true
-                        }).then(() => {
-                            console.log(`Successfully imported beamtime  scan h5 ${stats.name}`);
-                            next();
-                        });
-                    });
+                        })
+                    }).then(() => {
+                        console.log(`Successfully imported beamtime  scan h5 ${stats.name}`);
+                        next();
+                    }).catch(err => {
+                        console.error(`Failed to import beamtime scan h5 ${stats.name} due to ${err}. Ignoring!`);
+                        next();
+                });
             })
         } else {
             next();
@@ -91,25 +95,30 @@ const path = require('path');
 
 
             const recoName = path.basename(stats.name, path.extname(stats.name));
+            const beamtimeId = reco.beamtime_id;
             parseReco(`${root}/${stats.name}`).then(reco => {
-                mongodb.collection.findOne({beamtimeId: reco.beamtime_id})
+                mongodb.collection.findOne({beamtimeId})
                     .then(beamtime => {
+                        if(beamtime === null) beamtime = {
+                            beamtimeId
+                        };
                         if(beamtime.scans === undefined) beamtime.scans = {};
                         if(beamtime.scans[reco.scan_name] === undefined) beamtime.scans[reco.scan_name] = { recos: {}};
 
                         beamtime.scans[reco.scan_name].recos[recoName] = reco;
                         return beamtime;
                     }).then(beamtime=> {
-                    mongodb.collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, {$set: beamtime}, {
-                        upsert: true,
-                        returnNewDocument: true
+                        return mongodb.collection.findOneAndUpdate({beamtimeId: beamtime.beamtimeId}, {$set: beamtime}, {
+                            upsert: true,
+                            returnNewDocument: true
+                        });
                     }).then(() => {
                         console.log(`Successfully imported beamtime scan reco ${stats.name}`);
                         next();
+                    }).catch(err => {
+                        console.error(`Failed to import beamtime scan reco ${stats.name} due to ${err}. Ignoring!`);
+                        next();
                     });
-                });
-
-                next();
             })
 
         } else {
